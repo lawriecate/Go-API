@@ -1,0 +1,17 @@
+type Result struct {
+	length int
+	start  *Item
+}
+
+func (r *Result) Append(newItem *Item) {
+	if r.length == 0 {
+		r.start = newItem
+	} else {
+		currentItem := r.start
+		for currentItem.next != nil {
+			currentItem = currentItem.next
+		}
+		currentItem.next = newItem
+	}
+	r.length++
+}

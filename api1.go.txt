@@ -1,0 +1,27 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+
+	"github.com/julienschmidt/httprouter"
+)
+
+func getItem(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	id := params.ByName("id")
+	fmt.Fprintf(w, "GET %s\n", id)
+
+}
+
+func postItem(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	name := r.FormValue("name")
+	fmt.Fprintf(w, "POST %s\n", name)
+
+}
+
+func main() {
+	router := httprouter.New()
+	router.GET("/items/:id", getItem)
+	router.POST("/items", postItem)
+	http.ListenAndServe(":8080", router)
+}
